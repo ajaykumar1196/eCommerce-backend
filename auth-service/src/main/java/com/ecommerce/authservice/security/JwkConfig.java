@@ -36,6 +36,10 @@ public class JwkConfig {
     @Value("${app.security.jwt.kid}")
     private String kid;
 
+    public String getKid(){
+        return kid;
+    }
+
     @Bean
     public KeyStore keyStore() {
         try {

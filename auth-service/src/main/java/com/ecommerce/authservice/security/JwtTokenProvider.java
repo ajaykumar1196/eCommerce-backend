@@ -1,5 +1,6 @@
 package com.ecommerce.authservice.security;
 
+import com.ecommerce.authservice.domain.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
@@ -20,22 +21,28 @@ public class JwtTokenProvider {
 
     private final RSAPrivateKey privateKey;
     private final RSAPublicKey publicKey;
+    private final JwkConfig jwkConfig;
 
-    public JwtTokenProvider(RSAPrivateKey privateKey, RSAPublicKey publicKey) {
+    public JwtTokenProvider(RSAPrivateKey privateKey, RSAPublicKey publicKey, JwkConfig jwkConfig) {
         this.privateKey = privateKey;
         this.publicKey = publicKey;
+        this.jwkConfig = jwkConfig;
     }
 
     public String generateToken(Authentication authentication) {
 
-        Long now = System.currentTimeMillis();
+        long now = System.currentTimeMillis();
+
+        User user = (User) authentication.getPrincipal();
 
         return Jwts.builder()
-                .setSubject(authentication.getName())
+                .setHeaderParam("kid", jwkConfig.getKid())
+                .setSubject(user.getUsername())
                 .signWith(privateKey, SignatureAlgorithm.RS256)
                 .claim("authorities", authentication.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                .setExpiration(new Date(now + 60 * 1000))
+                .claim("userId", user.getId())
+                .setExpiration(new Date(now + 60 * 60 * 1000))
                 .compact();
     }
 
