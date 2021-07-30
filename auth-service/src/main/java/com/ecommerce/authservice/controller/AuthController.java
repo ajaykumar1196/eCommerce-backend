@@ -27,9 +27,9 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody RegisterRequest registerRequest) {
 
-        UserDetails userExists = userService.loadUserByUsername(registerRequest.getUsername());
+        Boolean userExists = userService.checkUserExists(registerRequest.getUsername());
 
-        if(userExists != null){
+        if(userExists){
             return new ResponseEntity<>("There is already a user registered with the username provided", HttpStatus.BAD_REQUEST);
         }
 
