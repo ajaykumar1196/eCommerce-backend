@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
-import java.security.Principal;
-
 
 @RestController
 @RequestMapping("/api/cart")
@@ -25,21 +23,17 @@ public class CartController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<Cart> getMyCart(@AuthenticationPrincipal String userName){
+    public ResponseEntity<Cart> getMyCart(@AuthenticationPrincipal Long userId){
 
-        System.out.println(userName);
+        Cart cart = cartService.findCartByUserId(userId);
 
-        Cart cart = cartService.findCartByUserName(userName);
-
-        Cart cartResponse =  Cart.builder().userName(userName).build();
-
-        return new ResponseEntity<>(cartResponse, HttpStatus.OK);
+        return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Cart> createMyCart(@AuthenticationPrincipal String userName){
+    public ResponseEntity<Cart> createMyCart(@AuthenticationPrincipal Long userId){
 
-        Cart cart = cartService.createCart(userName);
+        Cart cart = cartService.createCart(userId);
 
         return new ResponseEntity<>(cart, HttpStatus.CREATED);
 

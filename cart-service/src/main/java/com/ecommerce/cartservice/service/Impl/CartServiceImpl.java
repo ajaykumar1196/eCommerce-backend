@@ -20,20 +20,20 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart findCartByUserName(String userName) {
-        return cartRepository.findCartByUserName(userName);
+    public Cart findCartByUserId(Long userId) {
+        return cartRepository.findCartByUserId(userId);
     }
 
     @Override
-    public Cart createCart(String userName) {
+    public Cart createCart(Long userId) {
 
-        Cart cart = cartRepository.findCartByUserName(userName);
+        Cart cart = cartRepository.findCartByUserId(userId);
 
         if(cart != null){
             return  cart;
         }
 
-        cart = Cart.builder().userName(userName).build();
+        cart = Cart.builder().userId(userId).build();
         return cartRepository.save(cart);
     }
 }

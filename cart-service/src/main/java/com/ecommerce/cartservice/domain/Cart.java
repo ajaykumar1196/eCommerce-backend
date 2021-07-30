@@ -22,6 +22,6 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String userName;
+    private Long userId;
 
 }

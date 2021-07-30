@@ -4,7 +4,7 @@ import com.ecommerce.cartservice.domain.Cart;
 
 public interface CartService {
 
-    Cart findCartByUserName(String userName);
+    Cart findCartByUserId(Long userId);
 
-    Cart createCart(String userName);
+    Cart createCart(Long userId);
 }

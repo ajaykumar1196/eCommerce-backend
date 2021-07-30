@@ -38,21 +38,19 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
                 Claims claims = jwtTokenProvider.getAllClaimsFromToken(jwt);
 
-                String username = claims.getSubject();
+                Long userId = Long.valueOf((Integer) claims.get("userId"));
 
-                if(username != null) {
-                    List<String> authorities = (List<String>) claims.get("authorities");
+                List<String> authorities = (List<String>) claims.get("authorities");
 
-                    UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(username, null,
-                                    authorities
-                                            .stream()
-                                            .map(SimpleGrantedAuthority::new)
-                                            .collect(Collectors.toList()));
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userId, null,
+                                authorities
+                                        .stream()
+                                        .map(SimpleGrantedAuthority::new)
+                                        .collect(Collectors.toList()));
 
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                }
             }
 
         } catch (JwtException e) {
