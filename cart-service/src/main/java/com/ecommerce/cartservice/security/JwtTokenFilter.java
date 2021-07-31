@@ -1,7 +1,6 @@
 package com.ecommerce.cartservice.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
+import com.auth0.jwt.interfaces.Claim;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -29,18 +29,15 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
-
         String jwt = jwtTokenProvider.resolveToken(httpServletRequest);
-
-        try {
 
             if(StringUtils.hasText(jwt)){
 
-                Claims claims = jwtTokenProvider.getAllClaimsFromToken(jwt);
+                Map<String, Claim> claims = jwtTokenProvider.getAllClaimsFromToken(jwt);
 
-                Long userId = Long.valueOf((Integer) claims.get("userId"));
+                Long userId = claims.get("userId").asLong();
 
-                List<String> authorities = (List<String>) claims.get("authorities");
+                List<String> authorities = claims.get("authorities").asList(String.class);
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userId, null,
@@ -52,11 +49,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             }
-
-        } catch (JwtException e) {
-            SecurityContextHolder.clearContext();
-            throw new IllegalStateException(String.format("Token %s cannot be trusted", jwt));
-        }
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
 
