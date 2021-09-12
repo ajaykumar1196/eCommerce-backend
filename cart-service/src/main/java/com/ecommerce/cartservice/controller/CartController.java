@@ -1,13 +1,11 @@
 package com.ecommerce.cartservice.controller;
 
 import com.ecommerce.cartservice.domain.Cart;
+import com.ecommerce.cartservice.domain.CartItem;
 import com.ecommerce.cartservice.service.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
@@ -37,5 +35,11 @@ public class CartController {
 
         return new ResponseEntity<>(cart, HttpStatus.CREATED);
 
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<CartItem> addItemToCart(@AuthenticationPrincipal Long userId, @RequestBody CartItem cartItem){
+        CartItem newCartItem = cartService.addItemToCart(userId, cartItem);
+        return new ResponseEntity<>(newCartItem, HttpStatus.CREATED);
     }
 }

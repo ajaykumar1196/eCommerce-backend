@@ -1,5 +1,6 @@
 package com.ecommerce.cartservice.service.Impl;
 
+import com.ecommerce.cartservice.domain.Cart;
 import com.ecommerce.cartservice.domain.CartItem;
 import com.ecommerce.cartservice.repository.CartItemRepository;
 import com.ecommerce.cartservice.service.CartItemService;

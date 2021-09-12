@@ -1,5 +1,6 @@
 package com.ecommerce.cartservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class CartItem {
     private Long productId;
     private Integer quantity;
 
+    @JsonIgnore
     @ManyToOne
     private Cart cart;
 
