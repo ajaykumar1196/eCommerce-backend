@@ -24,10 +24,9 @@ public class ProductController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Product>> findAllProductByCategory(@RequestParam("category") String categoryName, Pageable pageable){
+    public ResponseEntity<List<Product>> findAllProductByCategory(@RequestParam("category") Long categoryId, Pageable pageable){
 
-        System.out.println(pageable);
-        List<Product> products = productService.findAllByCategory(categoryName, pageable);
+        List<Product> products = productService.findAllByCategoryId(categoryId, pageable);
 
         return new ResponseEntity<>(products, HttpStatus.OK);
     }

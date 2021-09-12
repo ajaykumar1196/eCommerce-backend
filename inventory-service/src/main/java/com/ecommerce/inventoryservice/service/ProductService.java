@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface ProductService {
 
-    List<Product> findAllByCategory(String categoryName, Pageable pageable);
+    List<Product> findAllByCategoryId(Long categoryId, Pageable pageable);
 
 }

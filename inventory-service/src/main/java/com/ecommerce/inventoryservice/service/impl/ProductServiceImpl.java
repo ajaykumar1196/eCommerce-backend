@@ -25,10 +25,10 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<Product> findAllByCategory(String categoryName, Pageable pageable) {
+    public List<Product> findAllByCategoryId(Long categoryId, Pageable pageable) {
 
-        categoryRepository.findCategoryByName(categoryName).orElseThrow(() -> new CategoryNotFoundException("Category '" + categoryName + "' does no exist"));
+        categoryRepository.findCategoryById(categoryId).orElseThrow(() -> new CategoryNotFoundException("Category '" + categoryId + "' does no exist"));
 
-        return productRepository.getAllByCategoryName(categoryName, pageable);
+        return productRepository.getAllByCategoryId(categoryId, pageable);
     }
 }

@@ -1,6 +1,7 @@
 package com.ecommerce.inventoryservice.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import javax.persistence.*;
 
@@ -14,7 +15,10 @@ public class Product {
 
     private String name;
     private String description;
+
+    @JsonIgnore
     private Integer quantity;
+
     private Double price;
     private String imageUrl;
 
