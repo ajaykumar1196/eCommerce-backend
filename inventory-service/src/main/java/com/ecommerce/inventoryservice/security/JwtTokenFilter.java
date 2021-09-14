@@ -1,4 +1,4 @@
-package com.ecommerce.cartservice.security;
+package com.ecommerce.inventoryservice.security;
 
 import com.auth0.jwt.interfaces.Claim;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

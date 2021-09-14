@@ -1,4 +1,4 @@
-package com.ecommerce.cartservice.security;
+package com.ecommerce.inventoryservice.security;
 
 
 import org.springframework.security.core.AuthenticationException;

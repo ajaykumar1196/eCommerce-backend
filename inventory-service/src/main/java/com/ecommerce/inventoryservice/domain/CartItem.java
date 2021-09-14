@@ -1,29 +1,32 @@
-package com.ecommerce.cartservice.domain;
+package com.ecommerce.inventoryservice.domain;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-public class Cart {
+public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long userId;
+    private Integer quantity;
 
 
-    @OneToMany
-    private List<CartItem> cartItem;
+    @OneToOne
+    private Product product;
+
+    @JsonIgnore
+    @ManyToOne
+    private Cart cart;
 
 }

@@ -1,7 +1,7 @@
-package com.ecommerce.cartservice.service;
+package com.ecommerce.inventoryservice.service;
 
-import com.ecommerce.cartservice.domain.Cart;
-import com.ecommerce.cartservice.domain.CartItem;
+import com.ecommerce.inventoryservice.domain.Cart;
+import com.ecommerce.inventoryservice.domain.CartItem;
 
 public interface CartService {
 

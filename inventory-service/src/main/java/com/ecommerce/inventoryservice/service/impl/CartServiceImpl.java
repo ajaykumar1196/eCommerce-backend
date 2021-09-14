@@ -1,10 +1,10 @@
-package com.ecommerce.cartservice.service.Impl;
+package com.ecommerce.inventoryservice.service.impl;
 
-import com.ecommerce.cartservice.domain.Cart;
-import com.ecommerce.cartservice.domain.CartItem;
-import com.ecommerce.cartservice.repository.CartRepository;
-import com.ecommerce.cartservice.service.CartItemService;
-import com.ecommerce.cartservice.service.CartService;
+import com.ecommerce.inventoryservice.domain.Cart;
+import com.ecommerce.inventoryservice.domain.CartItem;
+import com.ecommerce.inventoryservice.repository.CartRepository;
+import com.ecommerce.inventoryservice.service.CartItemService;
+import com.ecommerce.inventoryservice.service.CartService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

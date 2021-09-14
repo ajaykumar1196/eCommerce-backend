@@ -1,13 +1,12 @@
-package com.ecommerce.cartservice.controller;
+package com.ecommerce.inventoryservice.controller;
 
-import com.ecommerce.cartservice.domain.Cart;
-import com.ecommerce.cartservice.domain.CartItem;
-import com.ecommerce.cartservice.service.CartService;
+import com.ecommerce.inventoryservice.domain.Cart;
+import com.ecommerce.inventoryservice.domain.CartItem;
+import com.ecommerce.inventoryservice.service.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
