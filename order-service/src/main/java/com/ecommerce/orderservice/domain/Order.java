@@ -4,20 +4,30 @@ package com.ecommerce.orderservice.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Data
 @Entity
-@Table(name = "order_table")
+@Table(name = "orders")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    private String name;
-    private Long userId;
+    private String status;
+    private Long totalAmount;
+    private Date createdAt;
+    private Date updatedAt;
 
-    @OneToMany
-    private List<OrderItem> items;
+    private Long userId;
+    private Long paymentId;
+
+
+    @ManyToOne
+    private Address shippingAddressId;
+
+    @ManyToOne
+    private PaymentDetails paymentDetailsId;
 }
