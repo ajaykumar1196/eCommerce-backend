@@ -2,16 +2,18 @@ package com.ecommerce.orderservice.controller;
 
 
 import com.ecommerce.orderservice.domain.Order;
+import com.ecommerce.orderservice.dto.NewOrderRequest;
+import com.ecommerce.orderservice.dto.NewOrderResponse;
+import com.ecommerce.orderservice.messaging.InventoryEventSender;
 import com.ecommerce.orderservice.service.OrderService;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -19,9 +21,12 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final InventoryEventSender inventoryEventSender;
 
-    public OrderController(OrderService orderService) {
+
+    public OrderController(OrderService orderService, InventoryEventSender inventoryEventSender) {
         this.orderService = orderService;
+        this.inventoryEventSender = inventoryEventSender;
     }
 
 
@@ -39,5 +44,24 @@ public class OrderController {
         Order order = orderService.findOrderByUserIdAndId(userId, orderId);
 
         return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+
+    @PostMapping("/new")
+    public ResponseEntity<NewOrderResponse> newOrder(@AuthenticationPrincipal Long userId, @RequestBody NewOrderRequest newOrderRequest){
+
+        Order newOrder = Order.builder()
+                .userId(userId)
+                .updatedAt(new Date())
+                .createdAt(new Date())
+                .shippingAddressId(newOrderRequest.getShippingAddressId())
+                .paymentDetailsId(newOrderRequest.getPaymentDetailsId())
+                .status(Order.INITIATED_RESERVING_STOCK)
+                .build();
+
+        Order order = orderService.create(newOrder);
+
+        NewOrderResponse newOrderResponse = NewOrderResponse.builder().id(order.getId()).status(order.getStatus()).build();
+
+        return new ResponseEntity<>(newOrderResponse, HttpStatus.CREATED);
     }
 }

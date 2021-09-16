@@ -1,16 +1,22 @@
 package com.ecommerce.orderservice.domain;
 
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Data
+@Builder
+@ToString
 @Entity
-@Table(name = "orders")
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "orders_table")
 public class Order {
+
+    public static final String INITIATED_RESERVING_STOCK = "INITIATED_RESERVING_STOCK";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
