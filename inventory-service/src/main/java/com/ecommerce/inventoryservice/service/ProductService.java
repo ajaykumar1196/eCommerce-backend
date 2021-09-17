@@ -10,4 +10,5 @@ public interface ProductService {
 
     List<Product> findAllByCategoryId(Long categoryId, Pageable pageable);
 
+    Product save(Product product);
 }
