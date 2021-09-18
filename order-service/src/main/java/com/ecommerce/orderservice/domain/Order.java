@@ -17,6 +17,8 @@ import java.util.List;
 public class Order {
 
     public static final String INITIATED_RESERVING_STOCK = "INITIATED_RESERVING_STOCK";
+    public static final String CANCELLED_OUT_OF_STOCK = "CANCELLED_OUT_OF_STOCK";
+    public static final String RESERVED_PROCESSING_PAYMENT = "RESERVED_PROCESSING_PAYMENT";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

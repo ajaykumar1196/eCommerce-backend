@@ -21,7 +21,7 @@ public class InventoryEventSender {
     public static final String INVENTORY_STOCK_RELEASE_TOPIC = "inventory.stock.release";
 
     public void sendProductStockReservationEvent(NewOrderEvent newOrderEvent) {
-        String key = String.format("%s-stock-reservation", newOrderEvent.getId());
+        String key = String.format("%s-stock-reservation", newOrderEvent.getOrderId());
         Message<NewOrderEvent> event = MessageBuilder.withPayload(newOrderEvent).setHeader(KafkaHeaders.MESSAGE_KEY, key).build();
         streamBridge.send(INVENTORY_STOCK_RESERVE_TOPIC, event);
     }

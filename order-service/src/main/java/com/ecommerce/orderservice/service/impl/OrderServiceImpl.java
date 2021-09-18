@@ -1,6 +1,7 @@
 package com.ecommerce.orderservice.service.impl;
 
 import com.ecommerce.orderservice.domain.Order;
+import com.ecommerce.orderservice.domain.OrderItem;
 import com.ecommerce.orderservice.dto.NewOrderEvent;
 import com.ecommerce.orderservice.exception.OrderNotFoundException;
 import com.ecommerce.orderservice.messaging.InventoryEventSender;
@@ -42,13 +43,26 @@ public class OrderServiceImpl implements OrderService {
     public Order create(Order newOrder) {
         Order order = orderRepository.save(newOrder);
 
-        NewOrderEvent newOrderEvent = NewOrderEvent.builder().id(order.getId()).userId(order.getUserId()).build();
+        NewOrderEvent newOrderEvent = NewOrderEvent.builder().orderId(order.getId()).userId(order.getUserId()).build();
         reserveProductStock(newOrderEvent);
 
         return order;
     }
 
+    @Override
+    public Order updateStatus(Order order) {
+        return orderRepository.save(order);
+    }
+
     public void reserveProductStock(NewOrderEvent newOrderEvent) {
         inventoryEventSender.sendProductStockReservationEvent(newOrderEvent);
+    }
+
+    @Override
+    public void saveOrderItems(Order order, List<OrderItem> items) {
+        for (OrderItem orderItem : items){
+            orderItem.setOrderId(order);
+            orderItemRepository.save(orderItem);
+        }
     }
 }
